@@ -82,6 +82,7 @@ public:
 
 	const QList<Category*>*	getCategories();
 	const QList<Category*>	getParentCategories();
+	const QList<QString>	getParentCategoryNames(const int type);
 	const QList<Category*>	getChildCategories();
 	const QList<QString>	getCategoryNames(const int type);
 	bool					addCategory(const Category& c, const bool refresh = true);

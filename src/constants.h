@@ -5,6 +5,10 @@
 #include <QTreeWidgetItem>
 #include <QDateTime>
 
+const qlonglong DB_VERSION = 1;
+const QString VERSION = "0.7";
+const QString VERSION_STR = "VERSION";
+
 typedef struct User {
 	qlonglong id;
 	QString name;
@@ -71,11 +75,6 @@ public:
 		id = d.id; cid = d.cid; qty = d.qty; value = d.value; sum = d.sum; dateTime = d.dateTime; uid = d.uid; details = d.details; aid = d.aid; categoryName = d.categoryName; accountName = d.accountName; type = d.type; isMonthStart = d.isMonthStart;
 	}
 };
-
-
-const qlonglong DB_VERSION = 1;
-const QString VERSION = "0.7";
-const QString VERSION_STR = "VERSION";
 
 typedef struct COLUMN {
 	QString name;

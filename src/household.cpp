@@ -442,6 +442,18 @@ const QList<Category*> Household::getParentCategories() {
 	return parentCategories;
 }
 
+const QList<QString> Household::getParentCategoryNames(const int type) {
+	qDebug() << "Household::getParentCategories()";
+	QList<QString> parentCategoryNames;
+	for(int i = 0; i < _categories->count(); ++i) {
+		Category* c = _categories->at(i);
+		if(c->type == type && c->pid == -1) {
+			parentCategoryNames.append(c->name);
+		}
+	}
+	return parentCategoryNames;
+}
+
 const QList<Category*> Household::getChildCategories() {
 	qDebug() << "Household::getChildCategories()";
 	QList<Category*> childCategories;
@@ -572,11 +584,7 @@ const QList<QString> Household::getCategoryNames(const int type) {
 	QList<QString> categoryNames;
 	for(int i = 0; i < _categories->count(); ++i) {
 		if(_categories->at(i)->type == type || type == TYPE_ALL) {
-			QString tab;
-			//if(_categories->at(i)->pid != -1) {
-			//	tab = "    ";
-			//}
-			categoryNames.append(tab + _categories->at(i)->name);
+			categoryNames.append(_categories->at(i)->name);
 		}
 	}
 	return categoryNames;

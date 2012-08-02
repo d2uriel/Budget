@@ -46,8 +46,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _ui(new Ui::MainW
 	loadLanguageTexts();
 	loadSettings();
 	loadTranslations();
-
+#ifndef DEBUG
 	_ui->treeWidget_data->setColumnHidden(DATATREE_ID, true);
+#endif
 	_ui->treeWidget_data->setContextMenuPolicy(Qt::CustomContextMenu);
 	_ui->treeWidget_data->header()->setClickable(true);
 	_ui->treeWidget_data->header()->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -655,6 +656,7 @@ void MainWindow::addData(const int type) {
 			if(data->dateTime < _household->getDateFilterFrom() || data->dateTime > _household->getDateFilterTo()) {
 				delete data;
 			} else {
+				data->id = retVal;
 				addDataToTreeAndList(data);
 			}
 			break;
@@ -860,7 +862,7 @@ void MainWindow::onAddExpensesCategoryRequested() {
 		c.pid = _household->getCategoryId(dlg.getParentName().trimmed());
 		c.type = TYPE_EXPENSE;
 		_household->addCategory(c);
-		addExpenseDialog->fillCategoriesComboBox(_household->getCategoryNames(TYPE_EXPENSE));
+		addExpenseDialog->fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_EXPENSE));
 		addExpenseDialog->setCategoryName(dlg.getCategoryName());
 	}
 	QApplication::setActiveWindow(addExpenseDialog);
@@ -876,7 +878,7 @@ void MainWindow::onAddIncomeCategoryRequested() {
 		c.pid = _household->getCategoryId(dlg.getParentName().trimmed());
 		c.type = TYPE_INCOME;
 		_household->addCategory(c);
-		addIncomeDialog->fillCategoriesComboBox(_household->getCategoryNames(TYPE_INCOME));
+		addIncomeDialog->fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_INCOME));
 		addIncomeDialog->setCategoryName(dlg.getCategoryName());
 	}
 	QApplication::setActiveWindow(addIncomeDialog);
@@ -1266,9 +1268,6 @@ void MainWindow::columnVisibilityContextMenu(const QPoint& p) {
 	QAction* actCat = new QAction(menu); actCat->setText(tr("Category column")); actCat->setCheckable(true);
 	QAction* actUser = new QAction(menu); actUser->setText(tr("Added by column")); actUser->setCheckable(true);
 	QAction* actDetail = new QAction(menu); actDetail->setText(tr("Details column")); actDetail->setCheckable(true);
-#ifdef DEBUG
-	QAction* actId = new QAction(menu); actDetail->setText(tr("Id column")); actId->setCheckable(true);
-#endif
 	int colVis = _household->getColumnVisibility();
 	int colsVisible = 0;
 	if(colVis & DT_DATE) {
@@ -1299,11 +1298,6 @@ void MainWindow::columnVisibilityContextMenu(const QPoint& p) {
 		actDetail->setChecked(true);
 		++colsVisible;
 	}
-#ifdef DEBUG
-	if(colVis & DT_ID) {
-		actId->setChecked(true);
-	}
-#endif
 	if(colsVisible == 1) {
 		if(colVis & DT_DATE) {
 			actDate->setDisabled(true);
@@ -1323,10 +1317,6 @@ void MainWindow::columnVisibilityContextMenu(const QPoint& p) {
 	}
 	menu->addAction(actDate); menu->addAction(actQty); menu->addAction(actVal); menu->addAction(actSum);
 	menu->addAction(actCat); menu->addAction(actUser); menu->addAction(actDetail);
-#ifdef DEBUG
-	menu->addAction(actId);
-	connect(actId, SIGNAL(toggled(bool)), this, SLOT(onColumnVisibilityChanged(bool)));
-#endif
 	connect(actDate, SIGNAL(toggled(bool)), this, SLOT(onColumnVisibilityChanged(bool)));
 	connect(actQty, SIGNAL(toggled(bool)), this, SLOT(onColumnVisibilityChanged(bool)));
 	connect(actVal, SIGNAL(toggled(bool)), this, SLOT(onColumnVisibilityChanged(bool)));
@@ -1357,11 +1347,6 @@ void MainWindow::onColumnVisibilityChanged(bool b) {
 	} else if(columnName == tr("Details column")) {
 		_household->setColumnVisibility(_household->getColumnVisibility() ^ DT_DETAIL);
 	}
-#ifdef DEBUG
-	else if(columnName == tr("Column Id")) {
-		_household->setColumnVisibility(_household->getColumnVisibility() ^ DT_ID);
-	}
-#endif
 	changeDataTreeColumnVisibility();
 }
 
@@ -1403,11 +1388,4 @@ void MainWindow::changeDataTreeColumnVisibility() {
 	} else {
 		_ui->treeWidget_data->setColumnHidden(DATATREE_DETAILS, true);
 	}
-#ifdef DEBUG
-	if(colVis & DT_ID) {
-		_ui->treeWidget_data->setColumnHidden(DATATREE_ID, false);
-	} else {
-		_ui->treeWidget_data->setColumnHidden(DATATREE_ID, true);
-	}
-#endif
 }

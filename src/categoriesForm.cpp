@@ -71,9 +71,15 @@ void CategoriesForm::updateCategoriesTree() {
 		i->setText(1, _household->getUserName(c->uid));
 		if(c->type == TYPE_INCOME) {
 			QList<QTreeWidgetItem*> items = ui->treeWidget_incomeCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
+			if(items.count() == 0) {
+				int x = 0;
+			}
 			items[0]->addChild(i);
 		} else if(c->type == TYPE_EXPENSE) {
 			QList<QTreeWidgetItem*> items = ui->treeWidget_expensesCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
+			if(items.count() == 0) {
+				int x = 0;
+			}
 			items[0]->addChild(i);
 		}
 	}
@@ -128,7 +134,7 @@ void CategoriesForm::addCategory(const int type) {
 		tree = ui->treeWidget_expensesCategories;
 		dlg.setDialogTitle(tr("Add expenses category"));
 	}
-	dlg.fillCategoriesComboBox(_household->getCategoryNames(type));
+	dlg.fillCategoriesComboBox(_household->getParentCategoryNames(type));
 	if(tree->selectedItems().count() == 1) {
 		QList<QTreeWidgetItem*> items = tree->selectedItems();
 		dlg.setCurrentParent(items[0]->text(0));
@@ -205,7 +211,7 @@ void CategoriesForm::editCategory(const int type) {
 		tree = ui->treeWidget_expensesCategories;
 		dlg.setDialogTitle(tr("Edit expenses category"));
 	}
-	dlg.fillCategoriesComboBox(_household->getCategoryNames(type));
+	dlg.fillCategoriesComboBox(_household->getParentCategoryNames(type));
 	QList<QTreeWidgetItem*> items;
 	if(tree->selectedItems().count() == 1) {
 		items = tree->selectedItems();
