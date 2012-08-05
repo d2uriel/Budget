@@ -60,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), _ui(new Ui::MainW
 	_sortingChanged = false;
 	_debug = false;
 	_dataList = 0;
+	_showHelpTexts = false;
 
 	setupTimeRefresher();
 	connectGlobalSignalsAndSlots();
@@ -216,6 +217,7 @@ void MainWindow::connectGlobalSignalsAndSlots() {
 	connect(_ui->radio_filterDatesThisMonth, SIGNAL(clicked()), this, SLOT(onDateFilterChanged()));
 	connect(_ui->dateEdit_from, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(onDateFilterChanged()));
 	connect(_ui->dateEdit_to, SIGNAL(dateTimeChanged(QDateTime)), this, SLOT(onDateFilterChanged()));
+	connect(_ui->action_showHideHelpTexts, SIGNAL(triggered()), this, SLOT(onShowHideHelpTextsClicked()));
 	connect(_ui->actionDebug_mode, SIGNAL(triggered()), this, SLOT(onDebugClicked()));
 }
 
@@ -494,6 +496,7 @@ void MainWindow::onOpenHouseholdClicked() {
 void MainWindow::onOpenCategoriesConfigClicked() {
 	qDebug() << "MainWindow::onOpenCategoriesConfigClicked()";
 	CategoriesForm _categoriesForm(_household, this);
+	_categoriesForm.setShowHelpText(_showHelpTexts);
 	_categoriesForm.exec();
 	refreshUI();
 }
@@ -632,6 +635,7 @@ void MainWindow::addData(const int type) {
 	} else {
 		dlg->showAccounts();
 	}
+	dlg->setShowHelpText(_showHelpTexts);
 	if(dlg->add() == QDialog::Accepted) {
 		Data* data = new Data;
 		data->value = Household::valueIntFromMoneyString(dlg->getValue());
@@ -684,6 +688,7 @@ void MainWindow::editData() {
 		dlg->setValue(Household::stringFromValueInt(oldData.value));
 		dlg->setCategoryName(oldData.categoryName);
 		dlg->setIsMonthStart(oldData.isMonthStart);
+		dlg->setShowHelpText(_showHelpTexts);
 		if(dlg->edit() == QDialog::Accepted) {
 			Data newData(oldData);
 			newData.value = Household::valueIntFromMoneyString(dlg->getValue());
@@ -855,14 +860,15 @@ void MainWindow::refreshDataTab() {
 void MainWindow::onAddExpensesCategoryRequested() {
 	qDebug() << "MainWindow::onAddExpensesCategoryRequested()";
 	AddCategoryDialog dlg(this);
-	dlg.fillCategoriesComboBox(_household->getCategoryNames(TYPE_EXPENSE));
+	dlg.fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_EXPENSE));
+	dlg.setShowHelpText(_showHelpTexts);
 	if(dlg.exec() == QDialog::Accepted) {
 		Category c;
 		c.name = dlg.getCategoryName();
 		c.pid = _household->getCategoryId(dlg.getParentName().trimmed());
 		c.type = TYPE_EXPENSE;
 		_household->addCategory(c);
-		addExpenseDialog->fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_EXPENSE));
+		addExpenseDialog->fillCategoriesComboBox(_household->getCategoryNames(TYPE_EXPENSE));
 		addExpenseDialog->setCategoryName(dlg.getCategoryName());
 	}
 	QApplication::setActiveWindow(addExpenseDialog);
@@ -871,14 +877,15 @@ void MainWindow::onAddExpensesCategoryRequested() {
 void MainWindow::onAddIncomeCategoryRequested() {
 	qDebug() << "MainWindow::onAddIncomeCategoryRequested()";
 	AddCategoryDialog dlg(this);
-	dlg.fillCategoriesComboBox(_household->getCategoryNames(TYPE_INCOME));
+	dlg.fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_INCOME));
+	dlg.setShowHelpText(_showHelpTexts);
 	if(dlg.exec() == QDialog::Accepted) {
 		Category c;
 		c.name = dlg.getCategoryName();
 		c.pid = _household->getCategoryId(dlg.getParentName().trimmed());
 		c.type = TYPE_INCOME;
 		_household->addCategory(c);
-		addIncomeDialog->fillCategoriesComboBox(_household->getParentCategoryNames(TYPE_INCOME));
+		addIncomeDialog->fillCategoriesComboBox(_household->getCategoryNames(TYPE_INCOME));
 		addIncomeDialog->setCategoryName(dlg.getCategoryName());
 	}
 	QApplication::setActiveWindow(addIncomeDialog);
@@ -1096,6 +1103,7 @@ void MainWindow::onEditUsersClicked() {
 	qDebug() << "MainWindow::onEditUsersClicked()";
 	if(_household->currentUserAccessLevel() == ACCESS_ADMIN) {
 		UsersForm dlg(_household, this);
+		dlg.setShowHelpText(_showHelpTexts);
 		dlg.show();
 		dlg.exec();
 	}
@@ -1106,6 +1114,7 @@ User MainWindow::addUser() {
 	AddEditUserDialog dlg(this);
 	dlg.setAccessLevelDisabled();
 	dlg.setAccessLevel(tr("Administrator"));
+	dlg.setShowHelpText(_showHelpTexts);
 	if(dlg.exec() == QDialog::Accepted) {
 		User u;
 		u.name = dlg.getName();
@@ -1125,6 +1134,7 @@ void MainWindow::onEditAccountsClicked() {
 	qDebug() << "MainWindow::onEditAccountsClicked()";
 	if(_household->currentUserAccessLevel() == ACCESS_ADMIN) {
 		AccountsForm dlg(_household, this);
+		dlg.setShowHelpText(_showHelpTexts);
 		dlg.show();
 		dlg.exec();
 		refreshUI();
@@ -1134,6 +1144,7 @@ void MainWindow::onEditAccountsClicked() {
 Account MainWindow::addAccount() {
 	qDebug() << "MainWindow::addAccount()";
 	AddEditAccountsDialog dlg(this);
+	dlg.setShowHelpText(_showHelpTexts);
 	if(dlg.exec() == QDialog::Accepted) {
 		Account a;
 		a.name = dlg.getName();
@@ -1148,6 +1159,7 @@ void MainWindow::onTransferMoneyClicked() {
 	qDebug() << "MainWindow::onTransferMoneyClicked()";
 	MoneyTransferDialog dlg(_household, this);
 	dlg.fillAccounts(_household->getAccountNames());
+	dlg.setShowHelpText(_showHelpTexts);
 	if(dlg.exec() == QDialog::Accepted) {
 		_household->transferMoneyBetweenAccounts(_household->getAccountId(dlg.getAccountFrom()), _household->getAccountId(dlg.getAccountTo()), Household::valueIntFromMoneyString(dlg.getValue()));
 		refreshUI();
@@ -1387,5 +1399,13 @@ void MainWindow::changeDataTreeColumnVisibility() {
 		_ui->treeWidget_data->setColumnHidden(DATATREE_DETAILS, false);
 	} else {
 		_ui->treeWidget_data->setColumnHidden(DATATREE_DETAILS, true);
+	}
+}
+
+void MainWindow::onShowHideHelpTextsClicked() {
+	if(_ui->action_showHideHelpTexts->isChecked()) {
+		_showHelpTexts = false;
+	} else {
+		_showHelpTexts = true;
 	}
 }

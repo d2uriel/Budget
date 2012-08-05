@@ -18,6 +18,14 @@ MoneyTransferDialog::~MoneyTransferDialog() {
 	delete ui;
 }
 
+void MoneyTransferDialog::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void MoneyTransferDialog::verifyDialog() {
 	qDebug() << "MoneyTransferDialog::verifyDialog()";
 	if(ui->comboBox_accountFrom->currentText() == ui->comboBox_accountTo->currentText()) {

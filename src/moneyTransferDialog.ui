@@ -2,18 +2,45 @@
 <ui version="4.0">
  <class>MoneyTransferDialog</class>
  <widget class="QDialog" name="MoneyTransferDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>482</width>
-    <height>196</height>
+    <width>600</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Money Transfer</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_helpText">
+     <property name="text">
+      <string>This dialog allows transferring money from one Money Account to another.
+
+You need to specify from and to which Money Account your money will be transferred using the dropdown lists. You also need to enter how much money you wish to transfer.
+
+Clicking &quot;Swap accounts&quot; button will swap the accounts between &quot;from&quot; and &quot;to&quot; fields. </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>

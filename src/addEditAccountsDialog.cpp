@@ -22,6 +22,14 @@ AddEditAccountsDialog::~AddEditAccountsDialog() {
 	delete ui;
 }
 
+void AddEditAccountsDialog::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 QString	AddEditAccountsDialog::getName() {
 	qDebug() << "AddEditAccountsDialog::getName()";
 	return ui->lineEdit_name->text();

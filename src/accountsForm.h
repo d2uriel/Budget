@@ -16,6 +16,8 @@ public:
 	explicit AccountsForm(Household *h, QWidget *parent = 0);
 	~AccountsForm();
 
+	void setShowHelpText(bool show = true);
+
 	void refreshAccountList();
 	
 private:

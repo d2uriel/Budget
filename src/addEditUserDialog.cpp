@@ -14,6 +14,14 @@ AddEditUserDialog::~AddEditUserDialog() {
 	delete ui;
 }
 
+void AddEditUserDialog::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void AddEditUserDialog::verifyDialog() {
 	qDebug() << "AddEditUserDialog::verifyDialog()";
 	if(ui->lineEdit_name->text().isEmpty()) {

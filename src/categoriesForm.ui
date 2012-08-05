@@ -18,6 +18,28 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
+    <widget class="QLabel" name="label_helpText">
+     <property name="text">
+      <string>This dialog shows all Categories in your Budget.
+
+Clicking the &quot;Add...&quot; buttons allow creating new Categories. Right clicking on a Category will show a context menu with additional options.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox_income">
@@ -38,6 +60,9 @@
         </item>
         <item>
          <widget class="QTreeWidget" name="treeWidget_incomeCategories">
+          <attribute name="headerDefaultSectionSize">
+           <number>200</number>
+          </attribute>
           <column>
            <property name="text">
             <string>Income categories</string>
@@ -72,6 +97,9 @@
         </item>
         <item>
          <widget class="QTreeWidget" name="treeWidget_expensesCategories">
+          <attribute name="headerDefaultSectionSize">
+           <number>200</number>
+          </attribute>
           <column>
            <property name="text">
             <string>Expenses categories</string>

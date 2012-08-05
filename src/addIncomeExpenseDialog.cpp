@@ -40,6 +40,14 @@ AddIncomeExpenseDialog::~AddIncomeExpenseDialog() {
 	delete ui;
 }
 
+void AddIncomeExpenseDialog::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void AddIncomeExpenseDialog::verifyDialog() {
 	qDebug() << "AddIncomeExpenseDialog::verifyDialog()";
 	if(ui->comboBox_category->currentText() == tr("### ADD NEW CATEGORY ###")) {

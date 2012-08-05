@@ -15,6 +15,8 @@ public:
 	explicit AddEditAccountsDialog(QWidget *parent = 0);
 	~AddEditAccountsDialog();
 
+	void		setShowHelpText(bool show = true);
+
 	QString		getName();
 	void		setName(const QString& name);
 

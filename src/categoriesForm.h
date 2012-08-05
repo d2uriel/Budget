@@ -14,6 +14,8 @@ class CategoriesForm : public QDialog {
 public:
 	explicit CategoriesForm(Household *household, QWidget *parent = 0);
 	~CategoriesForm();
+
+	void				setShowHelpText(bool show = true);
 	
 private:
 	// Members.

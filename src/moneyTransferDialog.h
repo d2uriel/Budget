@@ -15,6 +15,8 @@ public:
 	explicit MoneyTransferDialog(Household *h, QWidget *parent = 0);
 	~MoneyTransferDialog();
 
+	void setShowHelpText(bool show = true);
+
 	void setAccountFrom(const QString& from);
 	QString getAccountFrom();
 

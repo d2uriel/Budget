@@ -2,18 +2,43 @@
 <ui version="4.0">
  <class>AddCategoryDialog</class>
  <widget class="QDialog" name="AddCategoryDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>102</height>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Household Budget - Add category</string>
+   <string>Add new Category</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_helpText">
+     <property name="text">
+      <string>This dialog allows creating a new Category for Income or Expenses.
+
+You need to specify a unique name for the new category and optionally a parent category.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">

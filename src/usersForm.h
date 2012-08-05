@@ -15,6 +15,8 @@ public:
 	explicit UsersForm(Household *h, QWidget *parent = 0);
 	~UsersForm();
 
+	void setShowHelpText(bool show = true);
+
 	void refreshUserList();
 	
 private:

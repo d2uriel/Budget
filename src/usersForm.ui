@@ -2,18 +2,45 @@
 <ui version="4.0">
  <class>usersForm</class>
  <widget class="QDialog" name="usersForm">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>500</width>
     <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Users configuration</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_helpText">
+     <property name="text">
+      <string>This dialog shows all Users in this Budget.
+
+Clicking the &quot;Add user&quot; button will... add a new User. Right clicking on a User will show a context menu with additional options.
+
+There are two User Levels: Administrator and User. Administrator can do everything whereas a User can only add Income and Expenses. </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QPushButton" name="pushButton_addUser">
      <property name="text">

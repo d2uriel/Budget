@@ -2,18 +2,51 @@
 <ui version="4.0">
  <class>AccountsForm</class>
  <widget class="QDialog" name="AccountsForm">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>800</width>
+    <height>400</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>Household Budget - Money Accounts</string>
+   <string>Money Accounts</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label_helpText">
+     <property name="text">
+      <string>This dialog allows you to view and add Money Accounts (MA) to your Budget.
+
+Below you will find a list of all MA's in this Budget. Right clicking on a MA will show a context menu with additional options. There's also an &quot;Add Money Account&quot; button which will... add a new Money Account.
+
+Each Budget has at least one MA which is also the default one. If you add an Income or Expense it will add/remove money from the default account unless you choose a different one. MA's are useful if you want to have total control of your money. You can create a MA called &quot;Savings&quot; and transfer some money there for example.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QPushButton" name="pushButton_addAccount">
      <property name="text">

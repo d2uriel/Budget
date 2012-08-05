@@ -31,6 +31,14 @@ CategoriesForm::~CategoriesForm() {
 	delete ui;
 }
 
+void CategoriesForm::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void CategoriesForm::clearTreeWidgets() {
 	qDebug() << "CategoriesForm::clearTreeWidgets()";
 	// Clear tree widgets.
@@ -71,52 +79,12 @@ void CategoriesForm::updateCategoriesTree() {
 		i->setText(1, _household->getUserName(c->uid));
 		if(c->type == TYPE_INCOME) {
 			QList<QTreeWidgetItem*> items = ui->treeWidget_incomeCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
-			if(items.count() == 0) {
-				int x = 0;
-			}
 			items[0]->addChild(i);
 		} else if(c->type == TYPE_EXPENSE) {
 			QList<QTreeWidgetItem*> items = ui->treeWidget_expensesCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
-			if(items.count() == 0) {
-				int x = 0;
-			}
 			items[0]->addChild(i);
 		}
 	}
-	/*
-	const QList<Category*>* categories = _household->getCategories();
-	// id = 0, pid = 1, name = 2, type = 3
-	for(int i = 0; i < categories->count(); ++i) {
-		Category *c = categories->at(i);
-		// First add parent categories.
-		if(c->pid != -1) {
-			continue;
-		}
-		QTreeWidgetItem *i = new QTreeWidgetItem();
-		i->setText(0, c->name);
-		i->setText(1, _household->getUserName(c->uid));
-		if(c->type == TYPE_INCOME) {
-			// No parent = top level item.
-			if(c->pid == -1) {
-				ui->treeWidget_incomeCategories->addTopLevelItem(i);
-			} else {
-				QList<QTreeWidgetItem*> items = ui->treeWidget_incomeCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
-				items[0]->addChild(i);
-			}
-
-		} else if(c->type == TYPE_EXPENSE) {
-			// No parent = top level item.
-			if(c->pid == -1) {
-				ui->treeWidget_expensesCategories->addTopLevelItem(i);
-			} else {
-				QList<QTreeWidgetItem*> items = ui->treeWidget_expensesCategories->findItems(_household->getCategoryName(c->pid), Qt::MatchExactly);
-				items[0]->addChild(i);
-			}
-		} else {
-
-		}
-	}
-	*/
 	ui->treeWidget_incomeCategories->expandAll();
 	ui->treeWidget_expensesCategories->expandAll();
 	ui->treeWidget_incomeCategories->setColumnWidth(0, 250);
@@ -141,6 +109,7 @@ void CategoriesForm::addCategory(const int type) {
 	} else {
 
 	}
+	dlg.setShowHelpText(ui->label_helpText->isVisible());
 	if(dlg.exec() == QDialog::Accepted) {
 		Category c;
 		c.name = dlg.getCategoryName();
@@ -220,6 +189,7 @@ void CategoriesForm::editCategory(const int type) {
 	} else {
 		return;
 	}
+	dlg.setShowHelpText(ui->label_helpText->isVisible());
 	if(dlg.exec() == QDialog::Accepted) {
 		Category c;
 		c.name = dlg.getCategoryName();

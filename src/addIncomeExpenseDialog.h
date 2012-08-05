@@ -19,6 +19,8 @@ public:
 	explicit AddIncomeExpenseDialog(const int type, QWidget *parent = 0);
 	~AddIncomeExpenseDialog();
 
+	void					setShowHelpText(bool show = true);
+
 	void					fillCategoriesComboBox(const QList<QString> cn);
 	void					fillAccountsComboBox(const QList<QString> acc);
 

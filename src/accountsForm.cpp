@@ -20,6 +20,14 @@ AccountsForm::~AccountsForm() {
 	delete ui;
 }
 
+void AccountsForm::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void AccountsForm::clear() {
 	qDebug() << "AccountsForm::clear()";
 	while(ui->treeWidget_accounts->topLevelItemCount() > 0) {
@@ -54,6 +62,7 @@ void AccountsForm::refreshAccountList() {
 void AccountsForm::onAddAccountClicked() {
 	qDebug() << "AccountsForm::onAddAccountClicked()";
 	AddEditAccountsDialog dlg(this);
+	dlg.setShowHelpText(ui->label_helpText->isVisible());
 	if(dlg.exec() == QDialog::Accepted) {
 		Account a;
 		a.name = dlg.getName();
@@ -96,6 +105,7 @@ void AccountsForm::editAccount() {
 		a.isDefault = _household->isAccountDefault(aid);
 		dlg.setName(a.name);
 		dlg.setDescription(a.description);
+		dlg.setShowHelpText(ui->label_helpText->isVisible());
 		if(dlg.exec() == QDialog::Accepted) {
 			a.name = dlg.getName();
 			a.description = dlg.getDescription();

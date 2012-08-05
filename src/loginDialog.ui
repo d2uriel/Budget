@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>LoginDialog</class>
  <widget class="QDialog" name="LoginDialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Household Budget - Login</string>
+   <string>Login</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">

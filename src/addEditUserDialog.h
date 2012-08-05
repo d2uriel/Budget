@@ -14,6 +14,8 @@ public:
 	explicit AddEditUserDialog(QWidget *parent = 0);
 	~AddEditUserDialog();
 
+	void		setShowHelpText(bool show = true);
+
 	QString		getName();
 	void		setName(const QString& name);
 

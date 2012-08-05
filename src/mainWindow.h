@@ -52,6 +52,7 @@ private:
 	bool								_isHouseholdModified;
 	bool								_dateFilterChanged;
 	bool								_sortingChanged;
+	bool								_showHelpTexts;
 	bool								_debug;
 
 	// Methods.
@@ -114,6 +115,7 @@ private slots:
 	void								onAddCategoryFilterClicked();
 	void								onRemoveCategoryFilterClicked();
 	void								onClearCategoryFiltersClicked();
+	void								onShowHideHelpTextsClicked();
 	void								resizeAccountTreeColumns();
 };
 

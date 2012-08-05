@@ -26,6 +26,14 @@ UsersForm::~UsersForm() {
 	delete ui;
 }
 
+void UsersForm::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void UsersForm::clear() {
 	qDebug() << "UsersForm::clear()";
 	while(ui->treeWidget_users->topLevelItemCount() > 0) {
@@ -54,6 +62,7 @@ void UsersForm::refreshUserList() {
 void UsersForm::onAddUserClicked() {
 	qDebug() << "UsersForm::onAddUserClicked()";
 	AddEditUserDialog dlg(this);
+	dlg.setShowHelpText(ui->label_helpText->isVisible());
 	if(dlg.exec() == QDialog::Accepted) {
 		User u;
 		u.name = dlg.getName();

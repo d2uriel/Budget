@@ -16,6 +16,14 @@ AddCategoryDialog::~AddCategoryDialog() {
 	delete ui;
 }
 
+void AddCategoryDialog::setShowHelpText(bool show) {
+	if(!show) {
+		ui->label_helpText->setHidden(true);
+	} else {
+		ui->label_helpText->setVisible(true);
+	}
+}
+
 void AddCategoryDialog::verifyDialog() {
 	qDebug() << "AddCategoryDialog::verifyDialog()";
 	if(ui->lineEdit_categoryName->text().isEmpty()) {

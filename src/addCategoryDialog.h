@@ -20,6 +20,8 @@ public:
 	explicit AddCategoryDialog(QWidget *parent = 0);
 	~AddCategoryDialog();
 
+	void	setShowHelpText(bool show = true);
+
 	QString getCategoryName();
 	void	setCategoryName(const QString& name);
 
